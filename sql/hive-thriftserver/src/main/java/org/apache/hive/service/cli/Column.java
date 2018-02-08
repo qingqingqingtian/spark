@@ -31,15 +31,15 @@ import com.google.common.primitives.Doubles;
 import com.google.common.primitives.Ints;
 import com.google.common.primitives.Longs;
 import com.google.common.primitives.Shorts;
-import org.apache.hive.service.cli.thrift.TBinaryColumn;
-import org.apache.hive.service.cli.thrift.TBoolColumn;
-import org.apache.hive.service.cli.thrift.TByteColumn;
-import org.apache.hive.service.cli.thrift.TColumn;
-import org.apache.hive.service.cli.thrift.TDoubleColumn;
-import org.apache.hive.service.cli.thrift.TI16Column;
-import org.apache.hive.service.cli.thrift.TI32Column;
-import org.apache.hive.service.cli.thrift.TI64Column;
-import org.apache.hive.service.cli.thrift.TStringColumn;
+import org.apache.hive.service.rpc.thrift.TBinaryColumn;
+import org.apache.hive.service.rpc.thrift.TBoolColumn;
+import org.apache.hive.service.rpc.thrift.TByteColumn;
+import org.apache.hive.service.rpc.thrift.TColumn;
+import org.apache.hive.service.rpc.thrift.TDoubleColumn;
+import org.apache.hive.service.rpc.thrift.TI16Column;
+import org.apache.hive.service.rpc.thrift.TI32Column;
+import org.apache.hive.service.rpc.thrift.TI64Column;
+import org.apache.hive.service.rpc.thrift.TStringColumn;
 
 /**
  * Column.

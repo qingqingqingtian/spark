@@ -421,7 +421,7 @@ private[hive] class HiveClientImpl(
         tableType = h.getTableType match {
           case HiveTableType.EXTERNAL_TABLE => CatalogTableType.EXTERNAL
           case HiveTableType.MANAGED_TABLE => CatalogTableType.MANAGED
-          case HiveTableType.VIRTUAL_VIEW => CatalogTableType.VIEW
+          case HiveTableType.VIRTUAL_VIEW | HiveTableType.MATERIALIZED_VIEW => CatalogTableType.VIEW
           case HiveTableType.INDEX_TABLE =>
             throw new AnalysisException("Hive index table is not supported.")
         },

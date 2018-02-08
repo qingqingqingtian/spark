@@ -22,10 +22,14 @@ import java.util.Properties
 
 import scala.collection.JavaConverters._
 
+import com.esotericsoftware.kryo.Kryo
+import com.esotericsoftware.kryo.io.Output
+import org.apache.commons.codec.binary.Base64
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs.{FileStatus, Path}
 import org.apache.hadoop.hive.conf.HiveConf.ConfVars
 import org.apache.hadoop.hive.ql.io.orc._
+import org.apache.hadoop.hive.ql.io.sarg.ConvertAstToSearchArg
 import org.apache.hadoop.hive.serde2.objectinspector.{SettableStructObjectInspector, StructObjectInspector}
 import org.apache.hadoop.hive.serde2.typeinfo.{StructTypeInfo, TypeInfoUtils}
 import org.apache.hadoop.io.{NullWritable, Writable}
@@ -33,6 +37,7 @@ import org.apache.hadoop.mapred.{JobConf, OutputFormat => MapRedOutputFormat, Re
 import org.apache.hadoop.mapreduce._
 import org.apache.hadoop.mapreduce.lib.input.{FileInputFormat, FileSplit}
 import org.apache.orc.OrcConf.COMPRESS
+import org.apache.orc.storage.ql.io.sarg.SearchArgument
 
 import org.apache.spark.TaskContext
 import org.apache.spark.sql.SparkSession
@@ -123,8 +128,10 @@ class OrcFileFormat extends FileFormat with DataSourceRegister with Serializable
       hadoopConf: Configuration): (PartitionedFile) => Iterator[InternalRow] = {
     if (sparkSession.sessionState.conf.orcFilterPushDown) {
       // Sets pushed predicates
+      // https://github.com/apache/hive/commit/9ae70cb4d11dae6cea45c29b0e87dc5da1e5555c
       OrcFilters.createFilter(requiredSchema, filters.toArray).foreach { f =>
-        hadoopConf.set(OrcFileFormat.SARG_PUSHDOWN, f.toKryo)
+        // TODO: toKryo
+        // hadoopConf.set(ConvertAstToSearchArg.SARG_PUSHDOWN, toKryo(f))
         hadoopConf.setBoolean(ConfVars.HIVEOPTINDEXFILTER.varname, true)
       }
     }
@@ -173,6 +180,13 @@ class OrcFileFormat extends FileFormat with DataSourceRegister with Serializable
           recordsIterator)
       }
     }
+  }
+
+  def toKryo(sarg: SearchArgument): String = {
+    val out = new Output(4 * 1024, 10 * 1024 * 1024)
+    new Kryo().writeObject(out, sarg)
+    out.close()
+    Base64.encodeBase64String(out.toBytes)
   }
 }
 

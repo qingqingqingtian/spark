@@ -18,10 +18,10 @@
 
 package org.apache.hive.service.cli;
 
+import org.apache.hive.service.rpc.thrift.THandleIdentifier;
+
 import java.nio.ByteBuffer;
 import java.util.UUID;
-
-import org.apache.hive.service.cli.thrift.THandleIdentifier;
 
 /**
  * HandleIdentifier.

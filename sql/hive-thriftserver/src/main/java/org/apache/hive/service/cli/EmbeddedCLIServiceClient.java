@@ -21,6 +21,7 @@ package org.apache.hive.service.cli;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.hadoop.conf.Configuration;
 import org.apache.hive.service.auth.HiveAuthFactory;
 
 
@@ -31,7 +32,9 @@ import org.apache.hive.service.auth.HiveAuthFactory;
 public class EmbeddedCLIServiceClient extends CLIServiceClient {
   private final ICLIService cliService;
 
-  public EmbeddedCLIServiceClient(ICLIService cliService) {
+  // TODO: this doesn't appear to be used anywhere.
+  public EmbeddedCLIServiceClient(ICLIService cliService, Configuration conf) {
+    super(conf);
     this.cliService = cliService;
   }
 
@@ -67,26 +70,29 @@ public class EmbeddedCLIServiceClient extends CLIServiceClient {
     return cliService.getInfo(sessionHandle, getInfoType);
   }
 
-  /* (non-Javadoc)
-   * @see org.apache.hive.service.cli.CLIServiceClient#executeStatement(org.apache.hive.service.cli.SessionHandle,
-   *  java.lang.String, java.util.Map)
-   */
   @Override
   public OperationHandle executeStatement(SessionHandle sessionHandle, String statement,
       Map<String, String> confOverlay) throws HiveSQLException {
     return cliService.executeStatement(sessionHandle, statement, confOverlay);
   }
 
-  /* (non-Javadoc)
-   * @see org.apache.hive.service.cli.CLIServiceClient#executeStatementAsync(org.apache.hive.service.cli.SessionHandle,
-   *  java.lang.String, java.util.Map)
-   */
+  @Override
+  public OperationHandle executeStatement(SessionHandle sessionHandle, String statement,
+      Map<String, String> confOverlay, long queryTimeout) throws HiveSQLException {
+    return cliService.executeStatement(sessionHandle, statement, confOverlay, queryTimeout);
+  }
+
   @Override
   public OperationHandle executeStatementAsync(SessionHandle sessionHandle, String statement,
       Map<String, String> confOverlay) throws HiveSQLException {
     return cliService.executeStatementAsync(sessionHandle, statement, confOverlay);
   }
 
+  @Override
+  public OperationHandle executeStatementAsync(SessionHandle sessionHandle, String statement,
+                                               Map<String, String> confOverlay, long queryTimeout) throws HiveSQLException {
+    return cliService.executeStatementAsync(sessionHandle, statement, confOverlay, queryTimeout);
+  }
 
   /* (non-Javadoc)
    * @see org.apache.hive.service.cli.CLIServiceClient#getTypeInfo(org.apache.hive.service.cli.SessionHandle)
@@ -153,8 +159,8 @@ public class EmbeddedCLIServiceClient extends CLIServiceClient {
    * @see org.apache.hive.service.cli.CLIServiceClient#getOperationStatus(org.apache.hive.service.cli.OperationHandle)
    */
   @Override
-  public OperationStatus getOperationStatus(OperationHandle opHandle) throws HiveSQLException {
-    return cliService.getOperationStatus(opHandle);
+  public OperationStatus getOperationStatus(OperationHandle opHandle, boolean getProgressUpdate) throws HiveSQLException {
+    return cliService.getOperationStatus(opHandle, getProgressUpdate);
   }
 
   /* (non-Javadoc)
@@ -183,7 +189,7 @@ public class EmbeddedCLIServiceClient extends CLIServiceClient {
 
   @Override
   public RowSet fetchResults(OperationHandle opHandle, FetchOrientation orientation,
-      long maxRows,  FetchType fetchType) throws HiveSQLException {
+      long maxRows, FetchType fetchType) throws HiveSQLException {
     return cliService.fetchResults(opHandle, orientation, maxRows, fetchType);
   }
 
@@ -204,5 +210,20 @@ public class EmbeddedCLIServiceClient extends CLIServiceClient {
   public void renewDelegationToken(SessionHandle sessionHandle, HiveAuthFactory authFactory,
       String tokenStr) throws HiveSQLException {
     cliService.renewDelegationToken(sessionHandle, authFactory, tokenStr);
+  }
+
+  @Override
+  public OperationHandle getPrimaryKeys(SessionHandle sessionHandle,
+                                        String catalog, String schema, String table) throws HiveSQLException {
+	return cliService.getPrimaryKeys(sessionHandle, catalog, schema, table);
+  }
+
+  @Override
+  public OperationHandle getCrossReference(SessionHandle sessionHandle,
+                                           String primaryCatalog, String primarySchema, String primaryTable,
+                                           String foreignCatalog, String foreignSchema, String foreignTable)
+		throws HiveSQLException {
+    return cliService.getCrossReference(sessionHandle, primaryCatalog, primarySchema,
+      primaryTable, foreignCatalog, foreignSchema, foreignTable);
   }
 }
