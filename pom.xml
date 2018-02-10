@@ -1397,6 +1397,14 @@
           </exclusion>
           <exclusion>
             <groupId>${hive.group}</groupId>
+            <artifactId>hive-vector-code-gen</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>${hive.group}</groupId>
+            <artifactId>hive-llap-tez</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>${hive.group}</groupId>
             <artifactId>hive-shims</artifactId>
           </exclusion>
           <exclusion>
@@ -1407,6 +1415,10 @@
           <exclusion>
             <groupId>${hive.group}</groupId>
             <artifactId>spark-client</artifactId>
+          </exclusion>
+          <exclusion>
+            <artifactId>calcite-druid</artifactId>
+            <groupId>org.apache.calcite</groupId>
           </exclusion>
 
           <!-- excluded dependencies & transitive.
@@ -1578,6 +1590,10 @@
             <artifactId>hive-shims</artifactId>
           </exclusion>
           <exclusion>
+            <groupId>org.apache.hbase</groupId>
+            <artifactId>hbase-client</artifactId>
+          </exclusion>
+          <exclusion>
             <groupId>org.apache.thrift</groupId>
             <artifactId>libfb303</artifactId>
           </exclusion>
@@ -1592,6 +1608,18 @@
           <exclusion>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>co.cask.tephra</groupId>
+            <artifactId>tephra-api</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>co.cask.tephra</groupId>
+            <artifactId>tephra-core</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>co.cask.tephra</groupId>
+            <artifactId>tephra-hbase-compat-1.0</artifactId>
           </exclusion>
           <exclusion>
             <groupId>org.slf4j</groupId>

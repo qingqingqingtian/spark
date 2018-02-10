@@ -242,6 +242,11 @@ private[hive] class HiveClientImpl(
     if (clientLoader.cachedHive != null) {
       clientLoader.cachedHive.asInstanceOf[Hive]
     } else {
+      // Hive changed the default of datanucleus.schema.autoCreateAll from true to false and
+      // hive.metastore.schema.verification from false to true since 2.0
+      // For details, see the JIRA HIVE-6113, HIVE-12463 and HIVE-1841
+      conf.setBoolean(HiveConf.ConfVars.METASTORE_SCHEMA_VERIFICATION.varname, false)
+      conf.setBoolean(HiveConf.ConfVars.METASTORE_AUTO_CREATE_ALL.varname, true)
       val c = Hive.get(conf)
       clientLoader.cachedHive = c
       c

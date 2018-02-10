@@ -287,6 +287,9 @@ private[hive] class HiveThriftServer2(sqlContext: SQLContext)
       }
     }
 
+    hiveConf.setBoolean(HiveConf.ConfVars.METASTORE_SCHEMA_VERIFICATION.varname, false)
+    hiveConf.setBoolean(HiveConf.ConfVars.METASTORE_AUTO_CREATE_ALL.varname, true)
+
     val thriftCliService = if (isHTTPTransportMode(hiveConf)) {
       new ThriftHttpCLIService(sparkSqlCliService, oomHook)
     } else {
