@@ -61,6 +61,8 @@ private[spark] class HiveExternalCatalog(conf: SparkConf, hadoopConf: Configurat
   import HiveExternalCatalog._
   import CatalogTableType._
 
+  HiveUtils.disableHiveSchemaVerification(hadoopConf)
+
   /**
    * A Hive client used to interact with the metastore.
    */

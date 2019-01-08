@@ -61,6 +61,8 @@ object TestHive
         // SPARK-8910
         .set("spark.ui.enabled", "false")
         .set("spark.unsafe.exceptionOnMemoryLeak", "true")
+        // HIVE-12320
+        .set("spark.hadoop.hive.metastore.disallow.incompatible.col.type.changes", "false")
         // Disable ConvertToLocalRelation for better test coverage. Test cases built on
         // LocalRelation will exercise the optimization rules better by disabling it as
         // this rule may potentially block testing of other optimization rules such as

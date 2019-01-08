@@ -389,7 +389,13 @@
     -->
     <dependency>
       <groupId>${hive.group}</groupId>
+      <artifactId>hive-common</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>${hive.group}</groupId>
       <artifactId>hive-exec</artifactId>
+      <classifier>${hive.classifier}</classifier>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -398,8 +404,23 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>org.apache.thrift</groupId>
-      <artifactId>libthrift</artifactId>
+      <groupId>${hive.group}</groupId>
+      <artifactId>hive-serde</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.hive</groupId>
+      <artifactId>hive-storage-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.hive.shims</groupId>
+      <artifactId>hive-shims-common</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.hive.shims</groupId>
+      <artifactId>hive-shims-0.23</artifactId>
       <scope>provided</scope>
     </dependency>
     <dependency>
